@@ -5,11 +5,11 @@ name: Python application
 on:
   push:
     branches: [ "main" ]
-
+  
 
 permissions:
   contents: read
-
+  #El write es necesario para que el workflow pueda subir los resultados de las pruebas a GitHub, como por ejemplo los artefactos o los resultados de las pruebas. y también para que pueda crear comentarios en los pull requests con los resultados de las pruebas o los errores encontrados.
   packages: write
 
 jobs:
@@ -19,26 +19,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python 3.11
-      uses: actions/setup-python@v4 # Actualizado a v4 que es más estable
+      uses: actions/setup-python@v3
       with:
         python-version: "3.11"
         
     - name: Install dependencies
-      # Asegúrate de que el nombre del archivo coincida exactamente con el de tu carpeta
-      run: pip install -r requirements.txt
+      run: pip install -r requeriments.txt
     
     - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
+      run: pytest
 
-    - name: Construir la imagen de Docker
-      run: docker build -t ghcr.io/${{ github.repository_owner }}/ejercicio_docker:1.0.0 .
+    - name: Ejecutar la app
+      run: python app.py
 
-    - name: Iniciar sesión en GHCR
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Simular el despliegue
+      run: echo "Desplegando la aplicación..."
 
-    - name: Subir la imagen
-      run: docker push ghcr.io/${{ github.repository_owner }}/ejercicio_docker:1.0.0
+    - name:  Construir la imagen de Docker
+      run: docker build -t ghcr.io/ljbtorres-debug/ejercicio_docker_py_gtactions:1.0.0 .
+
+    - name:  Iniciar sesión en GitHub Container Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Subir la imagen de Docker a GitHub Container Registry
+      run: docker push ghcr.io/ljbtorres-debug/ejercicio_docker_py_gtactions:1.0.0
