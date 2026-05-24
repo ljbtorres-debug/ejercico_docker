@@ -1,4 +1,4 @@
-// Para que no se suba el entorno virtual a git, se agrega al .gitignore la siguiente línea:
+# Para que no se suba el entorno virtual a git, se agrega al .gitignore la siguiente línea:
 
 .venv
 venv

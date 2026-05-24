@@ -1,4 +1,4 @@
-//Para qyue no se suba el entorno virtual a Docker, se agrega al .dockerignore la siguiente línea:
+#Para qyue no se suba el entorno virtual a Docker, se agrega al .dockerignore la siguiente línea:
 
 .venv
 venv
