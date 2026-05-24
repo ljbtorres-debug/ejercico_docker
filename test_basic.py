@@ -1,3 +1,3 @@
-def test_true_is_true():
+def test_hola():
     mensaje = "Hola, mundo!"
     assert "hola" in mensaje
